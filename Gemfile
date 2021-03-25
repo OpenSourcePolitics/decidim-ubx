@@ -21,6 +21,8 @@ gem "decidim-term_customizer", git: "https://github.com/OpenSourcePolitics/decid
 
 gem "bootsnap", "~> 1.3"
 
+gem "dotenv-rails"
+
 gem "puma", "~> 3.0"
 gem "uglifier", "~> 4.1"
 
@@ -37,7 +39,6 @@ gem "omniauth-saml", "~> 1.10"
 gem "omniauth-cas",  "~> 1.1.1"
 
 group :development, :test do
-  gem "dotenv-rails"
   gem "byebug", "~> 11.0", platform: :mri
 
   gem "decidim-dev", git: "https://github.com/OpenSourcePolitics/decidim.git", branch: "alt/petition"
