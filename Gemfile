@@ -16,6 +16,7 @@ gem "decidim", git: "https://github.com/OpenSourcePolitics/decidim.git", branch:
 # gem "decidim-consultations", path: "../decidim"
 # gem "decidim-initiatives", path: "../decidim"
 
+gem "decidim-navbar_links", git: "https://github.com/OpenSourcePolitics/decidim-module-navbar_links", branch: "tmp/0.21.0.pre.dev"
 gem "decidim-term_customizer", git: "https://github.com/OpenSourcePolitics/decidim-module-term_customizer.git", branch: "0.dev"
 
 gem "bootsnap", "~> 1.3"
