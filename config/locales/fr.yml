@@ -51,6 +51,10 @@ fr:
           ok: Fermer
           title: Action impossible
     proposals:
+      admin:
+        proposals:
+          show:
+            ranking: "%{ranking} de %{total}"
       proposals:
         count:
           proposals_count:
