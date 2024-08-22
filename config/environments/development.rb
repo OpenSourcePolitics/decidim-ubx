@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -14,12 +16,12 @@ Rails.application.configure do
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
-  if Rails.root.join('tmp', 'caching-dev.txt').exist?
+  if Rails.root.join("tmp/caching-dev.txt").exist?
     config.action_controller.perform_caching = true
 
     config.cache_store = :memory_store
     config.public_file_server.headers = {
-      'Cache-Control' => "public, max-age=#{2.days.to_i}"
+      "Cache-Control" => "public, max-age=#{2.days.to_i}"
     }
   else
     config.action_controller.perform_caching = false
@@ -31,9 +33,9 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :letter_opener_web
   config.action_mailer.default_url_options = { port: 3000 }
-  # Store uploaded files on the local file system (see config/storage.yml for options)
-  config.active_storage.service = :local
 
+  # Store uploaded files on the local file system (see config/storage.yml for options)
+  config.active_storage.service = Rails.application.secrets.dig(:scaleway, :id).blank? ? :local : :scaleway
 
   config.action_mailer.perform_caching = false
 
@@ -46,18 +48,16 @@ Rails.application.configure do
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
 
-  # Debug mode disables concatenation and preprocessing of assets.
-  # This option may cause significant delays in view rendering with a large
-  # number of complex assets.
-  config.assets.debug = true
-
-  # Suppress logger output for asset requests.
-  config.assets.quiet = true
-
   # Raises error for missing translations
   config.action_view.raise_on_missing_translations = false
 
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  # Global IDs are used to identify records and
+  # are known to cause issue with moderation due to expiration
+  # Setting this to 100 years should be enough
+  config.global_id.expires_in = 100.years
+  config.deface.enabled = ENV.fetch("DEFACE_ENABLED", nil) == "true"
 end

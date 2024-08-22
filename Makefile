@@ -1,63 +1,54 @@
-migration:
-	docker-compose run app "rails db:migrate"
+run: up
+	@make create-seeds
 
-upgrade:
-	docker-compose run app "rake decidim:upgrade"
-
-create:
-	docker-compose run app "rake db:create"
-
-up:
-	docker-compose up
-
-prod:
-	docker-compose -f docker-compose.prod.yml up
+up: build
+	docker-compose -f docker-compose.local.yml up -d
+	@make setup-database
 
 build:
-	docker-compose build --compress --parallel
+	docker build . -f Dockerfile.local -t decidim-app:latest
 
-drop:
-	docker-compose run app "rake db:drop"
+# Stops containers and remove volumes
+teardown:
+	docker-compose -f docker-compose.local.yml down -v --rmi all
 
-setup:
-	docker-compose run app "rake db:create db:migrate"
+create-database:
+	docker-compose -f docker-compose.local.yml exec app /bin/bash -c 'DISABLE_DATABASE_ENVIRONMENT_CHECK=1 /usr/local/bundle/bin/bundle exec rake db:create'
 
-seed:
-	docker-compose run app "SEED=true rake db:seed"
+setup-database: create-database
+	docker-compose -f docker-compose.local.yml exec app /bin/bash -c 'DISABLE_DATABASE_ENVIRONMENT_CHECK=1 /usr/local/bundle/bin/bundle exec rake db:migrate'
 
-precompile:
-	docker-compose run app "RAILS_ENV=production rails assets:precompile"
+# Create seeds
+create-seeds:
+	docker-compose -f docker-compose.local.yml exec app /bin/bash -c 'DISABLE_DATABASE_ENVIRONMENT_CHECK=1 /usr/local/bundle/bin/bundle exec rake db:schema:load db:seed'
 
-cache:
-	docker-compose run app "rails tmp:cache:clear assets:clobber"
+# Restore dump
+restore-dump:
+	bundle exec rake restore_dump
 
-ssh:
-	docker-compose run app /bin/bash
+shell:
+	docker-compose -f docker-compose.local.yml exec app /bin/bash
 
-local-bundle:
-	bundle install
+restart:
+	docker-compose -f docker-compose.local.yml up -d
 
-stop-all:
-	 docker stop $$(docker ps -q -a)
+status:
+	docker-compose -f docker-compose.local.yml ps
 
-prune:
-	@make stop-all
-	docker volume prune
+logs:
+	docker-compose -f docker-compose.local.yml logs app
 
-bump:
-	@make local-bundle
-	@make build
-	@make upgrade
-	@make migration
-	@make cache
-	@make precompile
-	@make prod
+external:
+	@if [ -z "$(IP)" ]; then \
+    		echo "Pass IP as follow : make external IP=192.168.64.1"; \
+    		echo "You can discover your IP as follow : \n > ifconfig | grep netmask | grep -v 127.0.0.1 | awk '{print \$$2}' | tail -n1"; \
+    		exit 1; \
+	fi
+	docker-compose -f docker-compose.local.yml exec app /bin/bash -c 'DISABLE_DATABASE_ENVIRONMENT_CHECK=1 /usr/local/bundle/bin/bundle exec rails runner "puts Decidim::Organization.first.update(host: \"$(IP)\")"'; \
+	echo "Decidim organization host updated to $(IP)"; \
+	echo "App is now accessible at https://$(IP):3000";
 
-init:
-	@make create
-	@make migration
-	@make upgrade
-	@make seed
-
-build-no-cache:
-	docker-compose build --no-cache
+rebuild:
+	docker-compose -f docker-compose.local.yml down
+	docker volume rm decidim-app_shared-volume || true
+	@make up

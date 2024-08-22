@@ -2,64 +2,89 @@
 
 source "https://rubygems.org"
 
+DECIDIM_VERSION = "0.27"
+DECIDIM_BRANCH = "release/#{DECIDIM_VERSION}-stable".freeze
+DECIDIM_ANONYMOUS_PROPOSALS_VERSION = { git: "https://github.com/PopulateTools/decidim-module-anonymous_proposals", branch: "anonymous_proposals_for_registered_users" }.freeze
+
 ruby RUBY_VERSION
 
-gem "decidim", git: "https://github.com/OpenSourcePolitics/decidim.git", branch: "alt/petition"
-# gem "decidim", path: "../decidim"
-# gem "decidim-map", path: "../decidim-map"
+# Core gems
+gem "decidim", "~> #{DECIDIM_VERSION}.0"
+gem "decidim-conferences", "~> #{DECIDIM_VERSION}.0"
+gem "decidim-initiatives", "~> #{DECIDIM_VERSION}.0"
+gem "decidim-templates", "~> #{DECIDIM_VERSION}.0"
 
-# gem "decidim-conferences", git: "https://github.com/OpenSourcePolitics/decidim.git", branch: "alt/petition"
-# gem "decidim-consultations", git: "https://github.com/OpenSourcePolitics/decidim.git", branch: "alt/petition"
-# gem "decidim-initiatives", git: "https://github.com/OpenSourcePolitics/decidim.git", branch: "alt/petition"
+# Load Budgets Booth to avoid errors
+gem "decidim-budgets_booth", github: "OpenSourcePolitics/decidim-module-ptp"
 
-# gem "decidim-conferences", path: "../decidim"
-# gem "decidim-consultations", path: "../decidim"
-# gem "decidim-initiatives", path: "../decidim"
+# External Decidim gems
+gem "decidim-anonymous_proposals", DECIDIM_ANONYMOUS_PROPOSALS_VERSION
+gem "decidim-budget_category_voting", git: "https://github.com/alecslupu-pfa/decidim-budget_category_voting.git", branch: DECIDIM_BRANCH
+gem "decidim-cache_cleaner"
+gem "decidim-category_enhanced", "~> 0.0.1"
+gem "decidim-decidim_awesome", git: "https://github.com/decidim-ice/decidim-module-decidim_awesome", branch: "main"
+gem "decidim-extended_socio_demographic_authorization_handler", git: "https://github.com/OpenSourcePolitics/decidim-module-extended_socio_demographic_authorization_handler.git",
+                                                                branch: DECIDIM_BRANCH
+gem "decidim-extra_user_fields", git: "https://github.com/OpenSourcePolitics/decidim-module-extra_user_fields.git", branch: "temp/twilio-compatibility-0.27"
+gem "decidim-friendly_signup", git: "https://github.com/OpenSourcePolitics/decidim-module-friendly_signup.git"
+gem "decidim-gallery", git: "https://github.com/OpenSourcePolitics/decidim-module-gallery.git", branch: "fix/nokogiri_deps"
+gem "decidim-half_signup", git: "https://github.com/OpenSourcePolitics/decidim-module-half_sign_up.git", branch: "feature/half_signup_and_budgets_booth"
+gem "decidim-homepage_interactive_map", git: "https://github.com/OpenSourcePolitics/decidim-module-homepage_interactive_map.git", branch: DECIDIM_BRANCH
+gem "decidim-ludens", git: "https://github.com/OpenSourcePolitics/decidim-ludens.git", branch: DECIDIM_BRANCH
+gem "decidim-phone_authorization_handler", git: "https://github.com/OpenSourcePolitics/decidim-module_phone_authorization_handler", branch: "release/0.27-stable"
+gem "decidim-spam_detection"
+gem "decidim-survey_multiple_answers", git: "https://github.com/OpenSourcePolitics/decidim-module-survey_multiple_answers"
+gem "decidim-term_customizer", git: "https://github.com/OpenSourcePolitics/decidim-module-term_customizer.git", branch: "fix/email_with_precompile"
 
-gem "decidim-navbar_links", git: "https://github.com/OpenSourcePolitics/decidim-module-navbar_links", branch: "tmp/0.21.0.pre.dev"
-gem "decidim-term_customizer", git: "https://github.com/OpenSourcePolitics/decidim-module-term_customizer.git", branch: "0.dev"
+# Omniauth gems
+gem "omniauth-france_connect", git: "https://github.com/OpenSourcePolitics/omniauth-france_connect"
+gem "omniauth_openid_connect"
+gem "omniauth-publik", git: "https://github.com/OpenSourcePolitics/omniauth-publik"
 
-gem "bootsnap", "~> 1.3"
-
-gem "dotenv-rails"
-
-gem "puma", "~> 3.0"
-gem "uglifier", "~> 4.1"
-
-gem "faker", "~> 1.8"
-
-gem "ruby-progressbar"
-gem "sentry-raven"
-
+# Default
+gem "activejob-uniqueness", require: "active_job/uniqueness/sidekiq_patch"
+gem "activerecord-session_store"
+gem "aws-sdk-s3", require: false
+gem "bootsnap", "~> 1.4"
+gem "deepl-rb", require: "deepl"
+gem "deface"
+gem "dotenv-rails", "~> 2.7"
+gem "faker", "~> 2.14"
+gem "fog-aws"
+gem "foundation_rails_helper", git: "https://github.com/sgruhier/foundation_rails_helper.git"
 gem "letter_opener_web", "~> 1.3"
-
-gem "sprockets", "~> 3.7"
-
-gem "omniauth-saml", "~> 1.10"
-gem "omniauth-cas",  "~> 1.1.1"
-
-group :development, :test do
-  gem "byebug", "~> 11.0", platform: :mri
-
-  gem "decidim-dev", git: "https://github.com/OpenSourcePolitics/decidim.git", branch: "alt/petition"
-  # gem "decidim-dev", path: "../decidim"
-end
+gem "multipart-post"
+gem "nokogiri", "1.13.4"
+gem "omniauth-rails_csrf_protection", "~> 1.0"
+gem "puma", ">= 5.5.1"
+gem "rack-attack", "~> 6.6"
+gem "sys-filesystem"
+gem "wicked_pdf", "2.6.3"
 
 group :development do
   gem "listen", "~> 3.1"
+  gem "rubocop-faker"
   gem "spring", "~> 2.0"
   gem "spring-watcher-listen", "~> 2.0"
-  gem "web-console", "~> 3.5"
+  gem "web-console", "~> 4.1"
+end
+
+group :development, :test do
+  gem "brakeman", "~> 5.1"
+  gem "byebug", "~> 11.0", platform: :mri
+  gem "climate_control", "~> 1.2"
+  gem "decidim-dev", "~> #{DECIDIM_VERSION}.0"
+  gem "parallel_tests"
 end
 
 group :production do
-  # gem "rubocop-rails"
-  gem "passenger"
-  gem "fog-aws"
   gem "dalli"
-  gem "sendgrid-ruby"
-  gem "newrelic_rpm"
+  gem "health_check", "~> 3.1"
   gem "lograge"
-  gem "sidekiq"
-  gem "sidekiq-scheduler"
+  gem "sendgrid-ruby"
+  gem "sentry-rails"
+  gem "sentry-ruby"
+  gem "sentry-sidekiq"
+  gem "sidekiq", "~> 6.0"
+  gem "sidekiq-scheduler", "~> 5.0"
 end
