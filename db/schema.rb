@@ -280,7 +280,6 @@ ActiveRecord::Schema.define(version: 2024_04_26_092405) do
 
   create_table "decidim_authorizations", id: :serial, force: :cascade do |t|
     t.string "name", null: false
-    t.jsonb "metadata"
     t.integer "decidim_user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -288,6 +287,7 @@ ActiveRecord::Schema.define(version: 2024_04_26_092405) do
     t.datetime "granted_at"
     t.jsonb "verification_metadata", default: {}
     t.string "verification_attachment"
+    t.text "encrypted_metadata"
     t.index ["decidim_user_id", "name"], name: "index_decidim_authorizations_on_decidim_user_id_and_name", unique: true
     t.index ["decidim_user_id"], name: "index_decidim_authorizations_on_decidim_user_id"
     t.index ["unique_id"], name: "index_decidim_authorizations_on_unique_id"
@@ -439,6 +439,7 @@ ActiveRecord::Schema.define(version: 2024_04_26_092405) do
     t.integer "parent_id"
     t.integer "decidim_participatory_space_id"
     t.string "decidim_participatory_space_type"
+    t.string "color"
     t.integer "weight", default: 0, null: false
     t.string "text_color"
     t.string "background_color"
