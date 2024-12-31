@@ -796,6 +796,10 @@ GEM
       hashie (>= 3.4.6)
       rack (>= 2.2.3)
       rack-protection
+    omniauth-cas (3.0.0)
+      addressable (~> 2.8)
+      nokogiri (~> 1.12)
+      omniauth (~> 2.1)
     omniauth-facebook (5.0.0)
       omniauth-oauth2 (~> 1.2)
     omniauth-google-oauth2 (1.1.2)
@@ -1187,6 +1191,7 @@ DEPENDENCIES
   lograge
   multipart-post
   nokogiri (= 1.13.4)
+  omniauth-cas
   omniauth-france_connect!
   omniauth-publik!
   omniauth-rails_csrf_protection (~> 1.0)
