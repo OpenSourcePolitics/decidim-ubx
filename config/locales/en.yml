@@ -173,6 +173,7 @@ en:
           cas:
             host: External service host (without http(s)://)
             provider_name: External service name
+            ssl: Enable SSL (true|false)
           france_connect:
             client_id: Client ID
             client_secret: Client secret
