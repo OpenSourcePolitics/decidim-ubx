@@ -9,7 +9,9 @@ module OmniAuth
       option :origin_param, "redirect_url"
       option :service_validate_url, "/p3/serviceValidate"
 
-      option :name_key, "givenName"
+      option :first_name_key, "sn"
+      option :last_name_key, "givenName"
+      option :email_key, "mail"
       option :status_key, "eduPersonEntitlement"
 
       # Auth hash schema keys for consistency with OmniAuth schema
@@ -17,7 +19,7 @@ module OmniAuth
 
       info do
         prune!(
-          name: raw_info[options[:name_key].to_s],
+          name: "#{raw_info[options[:first_name_key].to_s]} #{raw_info[options[:last_name_key].to_s]}",
           email: raw_info[options[:email_key].to_s],
           nickname: raw_info[options[:nickname_key].to_s],
           first_name: raw_info[options[:first_name_key].to_s],
