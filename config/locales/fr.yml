@@ -175,6 +175,7 @@ fr:
           cas:
             host: Hôte du serveur distant (sans http(s)://)
             provider_name: Nom du service distant
+            ssl: Activer le SSL (true|false)
           france_connect:
             client_id: Client ID
             client_secret: Client secret
