@@ -21,3 +21,15 @@ Rails.application.config.middleware.use OmniAuth::Builder do
     )
   end
 end
+
+ActiveSupport::Notifications.subscribe "decidim.user.omniauth_registration" do |_name, data|
+  Rails.logger.debug "decidim.user.omniauth_registration event in config/initializers/omniauth_cas.rb"
+  # Rails.logger.debug data
+
+  if %(openid_connect).include?(data[:provider]) # TODO : change to cas
+    user = Decidim::User.find(data[:user_id])
+
+    # TODO : see code @ https://github.com/OpenSourcePolitics/decidim/tree/alt/petition/decidim-verifications/lib/decidim/verifications/omniauth#L127
+
+  end
+end
