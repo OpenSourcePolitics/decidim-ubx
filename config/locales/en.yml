@@ -47,9 +47,9 @@ en:
         fields:
           status: status
         name: IDNUM student
-      expired_at: "Expired at : %{timestamp}"
-      expires_at: "Expire at  %{timestamp}"
-      granted_at: "Granted at %{timestamp}"
+      expired_at: 'Expired at : %{timestamp}'
+      expires_at: Expire at  %{timestamp}
+      granted_at: Granted at %{timestamp}
       osp_authorization_handler:
         explanation: Verify your identity by entering a unique number
         fields:
