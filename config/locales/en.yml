@@ -47,6 +47,9 @@ en:
         fields:
           status: status
         name: IDNUM student
+      expired_at: "Expired at : %{timestamp}"
+      expires_at: "Expire at  %{timestamp}"
+      granted_at: "Granted at %{timestamp}"
       osp_authorization_handler:
         explanation: Verify your identity by entering a unique number
         fields:
@@ -248,6 +251,8 @@ en:
     decidim:
       footer:
         made_with_open_source: Website made by <a target="_blank" href="https://opensourcepolitics.eu/en/">Open Source Politics</a> with the <a target="_blank" href="https://github.com/decidim/decidim">decidim free software</a>.
+      user_menu:
+        sign_out: Sign out
   rack_attack:
     too_many_requests:
       message: Your connection has been slowed because server received too many requests.

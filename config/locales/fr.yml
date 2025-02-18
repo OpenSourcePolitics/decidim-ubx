@@ -49,6 +49,9 @@ fr:
         fields:
           status: votre statut
         name: IDNUM étudiant
+      expired_at: "Expiré le %{timestamp}"
+      expires_at: "Expire le %{timestamp}"
+      granted_at: "Accordé le %{timestamp}"
       osp_authorization_handler:
         explanation: Vérifier votre identité en saisissant un numéro unique
         fields:
@@ -250,6 +253,8 @@ fr:
     decidim:
       footer:
         made_with_open_source: Site réalisé par <a target="_blank" href="https://opensourcepolitics.eu">Open Source Politics</a> grâce au <a target="_blank" href="https://github.com/decidim/decidim">logiciel libre Decidim</a>.
+      user_menu:
+        sign_out: Se déconnecter
   rack_attack:
     too_many_requests:
       message: Il semblerait que vous fassiez trop de requetes sur notre serveur, votre connexion a ete ralentie.

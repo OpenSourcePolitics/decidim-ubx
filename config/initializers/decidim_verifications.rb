@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require "decidim/verifications/omniauth/engine"
+require "decidim/verifications/omniauth/admin_engine"
+
 # Decidim::Verifications.register_workflow(:dummy_authorization_handler) do |workflow|
 #   workflow.form = "DummyAuthorizationHandler"
 #   workflow.action_authorizer = "DummyAuthorizationHandler::ActionAuthorizer"
@@ -33,4 +36,17 @@ else
   Decidim::Verifications.register_workflow(:osp_authorization_handler) do |auth|
     auth.form = "Decidim::OspAuthorizationHandler"
   end
+end
+
+Decidim::Verifications.register_workflow(:cas) do |workflow|
+  workflow.engine = Decidim::Verifications::Omniauth::Engine
+  workflow.admin_engine = Decidim::Verifications::Omniauth::AdminEngine
+  workflow.omniauth_provider = :cas
+end
+
+Decidim::Verifications.register_workflow(:cas_student) do |workflow|
+  workflow.engine = Decidim::Verifications::Omniauth::Engine
+  workflow.admin_engine = Decidim::Verifications::Omniauth::AdminEngine
+  workflow.action_authorizer = "Decidim::Verifications::Omniauth::UbxActionAuthorizer"
+  workflow.omniauth_provider = :cas
 end
