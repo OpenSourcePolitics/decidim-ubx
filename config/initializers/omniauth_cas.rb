@@ -40,15 +40,10 @@ ActiveSupport::Notifications.subscribe "decidim.user.omniauth_registration" do |
     flash_for_refused = []
 
     workflows.each do |workflow|
-      ## -- KEYCLOAK TRIES -- ##
-      # infos = data[:raw_data][:info]
-      # status = data[:raw_data][:extra]["raw_info"]["status"]
-      #
-      # ## Merge the infos with the status
-      # infos["status"] = status
-      ## -- ##
+      infos = data[:raw_data][:info]
+      status = data[:raw_data][:extra]["status"]
 
-      infos = data[:info]
+      infos["status"] = status
 
       form = Decidim::Verifications::Omniauth::OmniauthAuthorizationForm.from_params(
         user: user, provider: workflow.omniauth_provider, oauth_data: infos
