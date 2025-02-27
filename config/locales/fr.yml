@@ -32,6 +32,23 @@ fr:
             est en cours d’évaluation.
     anonymous_user: Utilisateur anonyme
     authorization_handlers:
+      admin:
+        cas:
+          help:
+          - Confirmer une identité avec un compte IDNUM
+        cas_student:
+          help:
+          - Confirmer une identité avec un compte IDNUM étudiant
+      cas:
+        explanation: Confirmer votre identité avec un compte IDNUM
+        fields:
+          status: votre statut
+        name: IDNUM
+      cas_student:
+        explanation: Confirmer votre identité avec un compte IDNUM
+        fields:
+          status: votre statut
+        name: IDNUM étudiant
       osp_authorization_handler:
         explanation: Vérifier votre identité en saisissant un numéro unique
         fields:
@@ -155,6 +172,10 @@ fr:
     system:
       organizations:
         omniauth_settings:
+          cas:
+            host: Hôte du serveur distant (sans http(s)://)
+            provider_name: Nom du service distant
+            ssl: Activer le SSL (true|false)
           france_connect:
             client_id: Client ID
             client_secret: Client secret
@@ -195,6 +216,8 @@ fr:
           success: Vous avez été vérifié avec succès.
         first_login:
           actions:
+            cas: Confirmer votre identité avec un compte IDNUM
+            cas_student: Confirmer votre identité avec un compte IDNUM étudiant
             osp_authorization_handler: Vérifier avec le formulaire de vérification de l'identité
             osp_authorization_workflow: Vérifier avec le formulaire de vérification de l'identité
   devise:

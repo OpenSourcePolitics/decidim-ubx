@@ -37,6 +37,7 @@ gem "decidim-survey_multiple_answers", git: "https://github.com/OpenSourcePoliti
 gem "decidim-term_customizer", git: "https://github.com/OpenSourcePolitics/decidim-module-term_customizer.git", branch: "fix/email_with_precompile"
 
 # Omniauth gems
+gem "omniauth-cas"
 gem "omniauth-france_connect", git: "https://github.com/OpenSourcePolitics/omniauth-france_connect"
 gem "omniauth_openid_connect"
 gem "omniauth-publik", git: "https://github.com/OpenSourcePolitics/omniauth-publik"

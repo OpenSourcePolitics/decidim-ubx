@@ -1,0 +1,43 @@
+# frozen_string_literal: true
+
+require "omniauth-cas"
+
+module OmniAuth
+  module Strategies
+    class UBX < OmniAuth::Strategies::CAS
+      option :name, :cas
+      option :origin_param, "redirect_url"
+      option :service_validate_url, "/p3/serviceValidate"
+
+      option :first_name_key, "sn"
+      option :last_name_key, "givenName"
+      option :email_key, "mail"
+      option :status_key, "eduPersonEntitlement"
+
+      # Auth hash schema keys for consistency with OmniAuth schema
+      AUTH_HASH_SCHEMA_KEYS = %w(name email nickname first_name last_name location image phone status).freeze
+
+      info do
+        prune!(
+          name: "#{raw_info[options[:first_name_key].to_s]} #{raw_info[options[:last_name_key].to_s]}",
+          email: raw_info[options[:email_key].to_s],
+          nickname: raw_info[options[:nickname_key].to_s],
+          first_name: raw_info[options[:first_name_key].to_s],
+          last_name: raw_info[options[:last_name_key].to_s],
+          location: raw_info[options[:location_key].to_s],
+          image: raw_info[options[:image_key].to_s],
+          phone: raw_info[options[:phone_key].to_s],
+          status: raw_info[options[:status_key].to_s]
+        )
+      end
+
+      private
+
+      def prune!(hash)
+        hash.delete_if { |_key, value| value.blank? }
+      end
+    end
+  end
+end
+
+OmniAuth.config.add_camelization("cas", "CAS")

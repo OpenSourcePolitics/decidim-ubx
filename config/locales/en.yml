@@ -30,6 +30,23 @@ en:
             is in evaluation state.
     anonymous_user: Anonymous user
     authorization_handlers:
+      admin:
+        cas:
+          help:
+          - Validate with an external CAS account
+        cas_student:
+          help:
+          - Validate with an external IDNUM student account
+      cas:
+        explanation: Validate with an external IDNUM account
+        fields:
+          status: status
+        name: IDNUM
+      cas_student:
+        explanation: Validate with an external IDNUM student account
+        fields:
+          status: status
+        name: IDNUM student
       osp_authorization_handler:
         explanation: Verify your identity by entering a unique number
         fields:
@@ -153,6 +170,10 @@ en:
     system:
       organizations:
         omniauth_settings:
+          cas:
+            host: External service host (without http(s)://)
+            provider_name: External service name
+            ssl: Enable SSL (true|false)
           france_connect:
             client_id: Client ID
             client_secret: Client secret
@@ -193,6 +214,8 @@ en:
           success: Success
         first_login:
           actions:
+            cas: Verify your identity with an IDNUM account
+            cas_student: Verify your identity with an IDNUM student account
             osp_authorization_handler: Verify with the identity verification form
             osp_authorization_workflow: Verify with the identity verification form
   devise:
