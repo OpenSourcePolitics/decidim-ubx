@@ -7,9 +7,9 @@ module Decidim
         def authorize
           status_code, data = super
 
-          return [:unauthorized, data] if authorization.blank? || authorization.metadata.blank?
+          return [:unauthorized, data] if authorization.blank?
 
-          status = authorization.metadata["status"]
+          status = authorization.user.extended_data&.dig("status")
 
           return [status_code, data] if status_code != :ok || status == "student"
 

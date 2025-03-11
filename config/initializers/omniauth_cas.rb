@@ -30,6 +30,11 @@ ActiveSupport::Notifications.subscribe "decidim.user.omniauth_registration" do |
 
     next unless user && data
 
+    infos = data[:raw_data][:info]
+
+    user.extended_data.merge!(status: infos[:status]) if infos[:status].present?
+    user.save!(validate: false)
+
     workflows = Decidim.authorization_workflows.select do |a|
       a.try(:omniauth_provider).to_s == data[:provider].to_s
     end
@@ -40,11 +45,6 @@ ActiveSupport::Notifications.subscribe "decidim.user.omniauth_registration" do |
     flash_for_refused = []
 
     workflows.each do |workflow|
-      infos = data[:raw_data][:info]
-      status = data[:raw_data][:extra]["status"]
-
-      infos["status"] = status
-
       form = Decidim::Verifications::Omniauth::OmniauthAuthorizationForm.from_params(
         user: user, provider: workflow.omniauth_provider, oauth_data: infos
       )

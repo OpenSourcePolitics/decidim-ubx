@@ -61,6 +61,10 @@ fr:
         name: Formulaire de vérification d'identité
       osp_authorization_workflow:
         name: Procédure d'autorisation
+    authorization_modals:
+      content:
+        unauthorized:
+          invalid_field: "%{field} avec la valeur %{value} n'est pas valide."
     budgets:
       order_reminder:
         text_message: Votre vote au budget participatif n'est pas terminé. Pour le terminer, reconnectez-vous sur %{organization_host}
