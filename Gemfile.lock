@@ -41,15 +41,6 @@ GIT
       decidim-core (>= 0.26.0, < 0.28.0)
 
 GIT
-  remote: https://github.com/OpenSourcePolitics/decidim-module-half_sign_up.git
-  revision: 5bee2b5422e4131f933ad854ab872e049dcf7b54
-  branch: feature/half_signup_and_budgets_booth
-  specs:
-    decidim-half_signup (0.27.0)
-      countries (~> 5.1, >= 5.1.2)
-      decidim-core (~> 0.27.0)
-
-GIT
   remote: https://github.com/OpenSourcePolitics/decidim-module-homepage_interactive_map.git
   revision: dd685166fdf953a11bd6a9e0dac56feca3bd0708
   branch: release/0.27-stable
@@ -1170,7 +1161,6 @@ DEPENDENCIES
   decidim-extra_user_fields!
   decidim-friendly_signup!
   decidim-gallery!
-  decidim-half_signup!
   decidim-homepage_interactive_map!
   decidim-initiatives (~> 0.27.0)
   decidim-ludens!
